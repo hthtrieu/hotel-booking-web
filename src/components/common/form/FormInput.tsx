@@ -75,12 +75,7 @@ export const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
 
         return (
             <FormControl className={className} size="small">
-                {label ? (
-                    <FormLabel className={classNameLabel}>
-                        {label}
-                        {required ? <span className="text-red-600">*</span> : null}
-                    </FormLabel>
-                ) : null}
+
                 <Controller
                     name={fieldName}
                     control={control}
@@ -90,6 +85,15 @@ export const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
                         // formState,
                     }) => (
                         <>
+                            {label ? (
+                                <FormLabel
+                                    className={cn('!text-black font-bold', classNameLabel)}
+                                    required={required}
+                                    error={error ? true : false}
+                                >
+                                    {label}
+                                </FormLabel>
+                            ) : null}
                             {renderInput({
                                 type,
                                 placeholder,
@@ -112,6 +116,8 @@ export const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
                                 readOnly,
                                 error,
                             })}
+                            {error ? <FormHelperText error={true}>{error?.message}</FormHelperText> : <div className=''></div>}
+
                         </>
                     )}
                 />
@@ -155,13 +161,14 @@ const renderInput = ({
             return (
                 <TextField
                     size='small'
+                    // error={error}
+                    // helperText={error ? error.message : null}
                     value={value}
                     type={type}
                     placeholder={placeholder}
                     className={classNameInput}
                     onChange={onChange}
                     onKeyUp={onKeyUp}
-                    helperText={error ? error.message : null}
                     inputProps={{ maxLength }}
                     inputRef={ref}  // Sử dụng inputRef để gán ref
                     disabled={disabled}
@@ -223,7 +230,7 @@ const renderInput = ({
                 <TextareaAutosize
                     value={value}
                     placeholder={placeholder}
-                    className={cn('border-black', classNameInput)}
+                    className={cn('border-border border-[1px] rounded-md p-2', classNameInput)}
                     onChange={onChange}
                     onKeyUp={onKeyUp}
                     maxLength={maxLength}
@@ -263,6 +270,8 @@ const renderInput = ({
                     size='small'
                     value={value}
                     type={type}
+                    error={error}
+                    helperText={error ? error.message : null}
                     placeholder={placeholder}
                     className={classNameInput}
                     onChange={onChange}

@@ -44,6 +44,7 @@ export const Libraries = () => {
                     type={Constants.INPUT_TYPE.TEXT}
                     label="User name"
                     placeholder="Enter user name"
+                    required={true}
                 />
                 <FormInput
                     control={control}
