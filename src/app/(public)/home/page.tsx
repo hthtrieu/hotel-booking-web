@@ -1,11 +1,12 @@
-import React from 'react'
+import { LoginForm } from "@/components/auth/sign-in/LoginForm"
 
-const page = () => {
+const HomePage = () => {
+
     return (
-        <div>
-
+        <div className="flex flex-col">
+            <LoginForm />
         </div>
     )
 }
 
-export default page
+export default HomePage

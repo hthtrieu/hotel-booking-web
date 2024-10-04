@@ -1,11 +1,11 @@
 import { clsx, type ClassValue } from 'clsx';
 // import { jwtDecode, JwtPayload } from 'jwt-decode';
-// import { twMerge } from 'tailwind-merge';
+import { twMerge } from 'tailwind-merge';
 // import Constants from './Constants';
 
-// export function cn(...inputs: ClassValue[]) {
-//     return twMerge(clsx(inputs));
-// }
+export function cn(...inputs: ClassValue[]) {
+    return twMerge(clsx(inputs));
+}
 // ? need this function?
 export const isFunction = (func: any) => {
     return func && typeof func === 'function';

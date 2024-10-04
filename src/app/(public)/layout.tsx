@@ -1,5 +1,5 @@
 import React from 'react'
-
+import MaxWidthWrapper from '@/components/common/MaxWidthWrapper'
 const layout = ({
     children,
 }: {
@@ -7,7 +7,9 @@ const layout = ({
 }) => {
     return (
         <div>
-            {children}
+            <MaxWidthWrapper>
+                {children}
+            </MaxWidthWrapper>
         </div>
     )
 }
