@@ -31,4 +31,5 @@ export interface FormInputProps {
     labelCheckbox?: string;
     required?: boolean;
     size?: number;
+    getOptionLabel?: (options: any) => void;
 }

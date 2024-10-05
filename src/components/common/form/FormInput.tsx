@@ -2,19 +2,6 @@
 
 import * as React from 'react';
 import { FormInputProps } from './FormInputProps.type';
-// import Checkbox from '@mui/material/Checkbox';
-// import TextField from '@mui/material/TextField';
-// import FormControl from '@mui/material/FormControl';
-// import FormLabel from '@mui/material/FormLabel';
-// import FormHelperText from '@mui/material/FormHelperText';
-// import RadioGroup from '@mui/material/RadioGroup';
-// import Radio from '@mui/material/Radio';
-// import FormControlLabel from '@mui/material/FormControlLabel';
-// import Select from '@mui/material/Select';
-// import MenuItem from '@mui/material/MenuItem';
-// import InputLabel from '@mui/material/InputLabel';
-// import TextareaAutosize from '@mui/material/TextareaAutosize';
-
 import { Controller } from 'react-hook-form';
 import {
     FormControl,
@@ -27,10 +14,14 @@ import {
     FormControlLabel,
     TextareaAutosize,
     RadioGroup,
-    Radio
+    Radio,
+    Autocomplete,
 } from '@mui/material';
 import { cn, isFunction } from '@/libs/utils';
+
 import Constants from '@/libs/Constants';
+import IncrementInput from './IncrementInput';
+import CustomDateRangePicker from './CustomDateRangePicker';
 
 export const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
     (
@@ -59,6 +50,7 @@ export const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
             classNameContent,
             labelCheckbox,
             required = false,
+            getOptionLabel,
         },
         ref,
     ) => {
@@ -74,8 +66,7 @@ export const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
         };
 
         return (
-            <FormControl className={className} size="small">
-
+            <FormControl size="small" className='w-full md:w-fit md:min-w-[200px]'>
                 <Controller
                     name={fieldName}
                     control={control}
@@ -84,7 +75,7 @@ export const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
                         fieldState: { error },
                         // formState,
                     }) => (
-                        <>
+                        <div className={cn('w-full', className)}>
                             {label ? (
                                 <FormLabel
                                     className={cn('!text-black font-bold', classNameLabel)}
@@ -115,15 +106,15 @@ export const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
                                 labelCheckbox,
                                 readOnly,
                                 error,
+                                fieldName,
+                                getOptionLabel,
+                                control,
                             })}
                             {error ? <FormHelperText error={true}>{error?.message}</FormHelperText> : <div className=''></div>}
 
-                        </>
+                        </div>
                     )}
                 />
-
-
-
                 {description ? <FormHelperText>{description}</FormHelperText> : null}
             </FormControl >
         );
@@ -134,6 +125,7 @@ FormInput.displayName = 'FormInput';
 
 const renderInput = ({
     value,
+    fieldName,
     type,
     placeholder,
     classNameInput,
@@ -152,7 +144,9 @@ const renderInput = ({
     onChangeSelect,
     labelCheckbox,
     onCheckboxChange,
+    getOptionLabel,
     ref,
+    control,
 }: any) => {
     switch (type) {
         case Constants.INPUT_TYPE.TEXT:
@@ -161,8 +155,6 @@ const renderInput = ({
             return (
                 <TextField
                     size='small'
-                    // error={error}
-                    // helperText={error ? error.message : null}
                     value={value}
                     type={type}
                     placeholder={placeholder}
@@ -245,11 +237,7 @@ const renderInput = ({
                 <RadioGroup
                     value={value}
                     onChange={(e) => {
-                        console.log(typeof e.target.value)
                         onChange(e.target.value);
-                        // if (isFunction(onChangeSelect)) {
-                        //     onChangeSelect(e.target.value);
-                        // }
                     }}
                     row
                 >
@@ -263,7 +251,54 @@ const renderInput = ({
                     ))}
                 </RadioGroup>
             );
+        case Constants.INPUT_TYPE.AUTOCOMPLETE:
+            return (
+                <div className='w-full'>
+                    <Autocomplete
+                        value={value}
+                        onChange={(event: any, newValue: any) => {
+                            onChange(newValue);
+                        }}
+                        options={options}
+                        getOptionLabel={getOptionLabel}
+                        sx={{ width: '100%', minWidth: '100%' }} // Đảm bảo bỏ min-width mặc định
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                type={type}
+                                placeholder={placeholder}
+                                className={cn('w-full min-w-full', classNameInput)} // class w-full đảm bảo đủ width
+                                size="small"
+                            />
+                        )}
+                    />
+                </div>
 
+
+            );
+        case Constants.INPUT_TYPE.INCREMENT_NUMBER:
+            return (
+                <IncrementInput
+                    type={type}
+                    value={value}
+                    placeholder={placeholder}
+                    classNameInput={classNameInput}
+                    onChange={onChange}
+                    // onKeyUp={onKeyUp}
+                    ref={ref}
+                    disabled={disabled}
+                    fieldName={fieldName}
+                />
+            );
+        case Constants.INPUT_TYPE.DATE_RANGE_PICKER:
+            return (
+                <CustomDateRangePicker
+                    control={control}
+                    startFieldName={`${fieldName}.startDate`}
+                    endFieldName={`${fieldName}.endDate`}
+                    disabled={disabled}
+                />
+            );
         default:
             return (
                 <TextField

@@ -4,8 +4,6 @@ import { ThemeProvider } from "@mui/material";
 import localFont from "next/font/local";
 import "./globals.css";
 import theme from "@/components/common/themes/theme";
-import Header from "@/components/common/header/Header";
-import Footer from "@/components/common/footer/Footer";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -34,12 +32,12 @@ export default function RootLayout({
       >
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
-            <Header />
             {children}
-            <Footer />
           </ThemeProvider>
         </AppRouterCacheProvider>
+
       </body>
+
     </html>
   );
 }

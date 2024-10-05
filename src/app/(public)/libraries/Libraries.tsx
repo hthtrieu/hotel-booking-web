@@ -5,7 +5,7 @@ import { Button } from "@mui/material";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-
+// import CustomDateRangePicker from "@/components/common/form/CustomDateRangePicker";
 export const Libraries = () => {
     const formSchema = z.object({
         username: z.string().min(2, {
@@ -22,6 +22,10 @@ export const Libraries = () => {
         gender: z.string({
             message: "Required"
         }),
+        date: z.any(),
+        items: z.number().min(1, {
+            message: "Minimum is 1"
+        })
     });
     const { handleSubmit, control } = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -30,6 +34,7 @@ export const Libraries = () => {
             password: '',
             // age: 1,
             agree: false,
+            items: 1,
         },
     });
     const submitForm = (values: any) => {
@@ -37,7 +42,7 @@ export const Libraries = () => {
     }
     return (
         <form onSubmit={handleSubmit(submitForm)}>
-            <div className="flex flex-col gap-2">
+            <div className="flex gap-4 flex-wrap">
                 <FormInput
                     control={control}
                     fieldName="username"
@@ -88,6 +93,17 @@ export const Libraries = () => {
                     ]}
 
                 />
+                <FormInput
+                    control={control}
+                    fieldName="date"
+                    type={Constants.INPUT_TYPE.DATE_RANGE_PICKER}
+                />
+                <FormInput
+                    type={Constants.INPUT_TYPE.INCREMENT_NUMBER}
+                    control={control}
+                    fieldName="items"
+                />
+                {/* <CustomDateRangePicker /> */}
                 <Button type="submit" variant="contained">Submit</Button>
             </div>
         </form>

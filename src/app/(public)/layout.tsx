@@ -1,15 +1,23 @@
-import React from 'react'
-import MaxWidthWrapper from '@/components/common/MaxWidthWrapper'
+import Header from '@/components/common/header/Header';
+import Footer from '@/components/common/footer/Footer';
+import MaxWidthWrapper from '@/components/common/MaxWidthWrapper';
+
 const layout = ({
     children,
-}: {
-    children: React.ReactNode
-}) => {
+}: Readonly<{
+    children: React.ReactNode;
+}>) => {
     return (
-        <div>
-            <MaxWidthWrapper>
-                {children}
-            </MaxWidthWrapper>
+        <div className='flex flex-col'>
+            <Header />
+            <main className='min-h-screen'>
+                <MaxWidthWrapper >
+                    {
+                        children
+                    }
+                </MaxWidthWrapper>
+            </main>
+            <Footer />
         </div>
     )
 }

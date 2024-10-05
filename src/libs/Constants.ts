@@ -20,6 +20,9 @@ export default class Constants {
         INPUT_CHECK: 'input_check',
         RE_CAPTCHA: 're_captcha',
         AVATAR: 'avatar',
+        DATE_RANGE_PICKER: 'date_range_picker',
+        AUTOCOMPLETE: 'autocomplete',
+        INCREMENT_NUMBER: 'increment_number',
     };
 
     static DEFAULT_PAGESIZE = 6;
