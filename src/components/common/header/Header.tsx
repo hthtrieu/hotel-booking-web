@@ -2,6 +2,7 @@ import Link from 'next/link'
 import React from 'react'
 import { cn } from '@/libs/utils'
 import MaxWidthWrapper from '../MaxWidthWrapper'
+import Logo from '../logo/Logo'
 const links = [
     { title: 'Home', path: '/home' },
     { title: 'Libraries', path: '/libraries' },
@@ -31,7 +32,7 @@ const Header = () => {
                                 href={'/'}
                             // aria-current="page"
                             >
-                                Logo
+                                <Logo />
                             </Link>
                         </div>
                         <div className="hidden w-full md:block md:w-auto">

@@ -6,19 +6,21 @@ export interface FormInputProps {
     fieldName: string;
     placeholder?: string;
     className?: string;
+    classNameWrapper?: string;
     classNameInput?: string;
     classNameLabel?: string;
     classNameIcon?: string;
     icon?: any;
     alignIcon?: string;
     onClickIcon?: (e: React.MouseEvent) => void;
-    onChange?: (value: boolean | string) => void;
+    onChange?: (value: boolean | string | any) => void;
     onKeyUp?: (event: React.KeyboardEvent) => void;
     description?: string;
     errorServer?: string;
     errorServerMap?: any[];
     maxLength?: number;
     options?: any[];
+    rangeOptions?: any;
     value?: string;
     labelValidate?: string;
     validate?: any[];
@@ -32,4 +34,5 @@ export interface FormInputProps {
     required?: boolean;
     size?: number;
     getOptionLabel?: (options: any) => void;
+    onChangeEvent?: any;
 }

@@ -23,6 +23,7 @@ export default class Constants {
         DATE_RANGE_PICKER: 'date_range_picker',
         AUTOCOMPLETE: 'autocomplete',
         INCREMENT_NUMBER: 'increment_number',
+        RANGE_SLIDER: 'range_slider',
     };
 
     static DEFAULT_PAGESIZE = 6;
@@ -37,19 +38,23 @@ export default class Constants {
         SIBLING_COUNT: 8,
     };
 
-    // static SidebarNavItems = [
-    //     {
-    //         href: routerPaths.ADMIN_SETS,
-    //         title: 'Sets',
-    //     },
-    //     {
-    //         href: routerPaths.ADMIN_PENDING_SETS,
-    //         title: 'Pending Sets',
-    //     },
-    //     {
-    //         href: routerPaths.ADMIN_SETS_MULTIPLE_CHOICE_TEST,
-    //         title: 'Tests',
-    //     },
-    // ];
-
-}
+    static HOTEL_STAR = [
+        { key: 1, label: 1 },
+        { key: 2, label: 2 },
+        { key: 3, label: 3 },
+        { key: 4, label: 4 },
+        { key: 5, label: 5 }
+    ]
+    static HOTEL_REVIEW_SCORE = [
+        { key: 1, label: 1 },
+        { key: 2, label: 2 },
+        { key: 3, label: 3 },
+        { key: 4, label: 4 },
+        { key: 5, label: 5 },
+        { key: 6, label: 6 },
+        { key: 7, label: 7 },
+        { key: 8, label: 8 },
+        { key: 9, label: 9 },
+        { key: 10, label: 10 },
+    ]
+} 

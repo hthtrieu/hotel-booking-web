@@ -11,7 +11,7 @@ const layout = ({
         <div className='flex flex-col'>
             <Header />
             <main className='min-h-screen'>
-                <MaxWidthWrapper >
+                <MaxWidthWrapper className=''>
                     {
                         children
                     }
