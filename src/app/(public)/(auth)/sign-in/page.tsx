@@ -1,11 +1,11 @@
-import React from 'react'
-
+import React from "react";
+import SignIn from "./SignInContainer";
 const page = () => {
-    return (
-        <div>
-            Login page
-        </div>
-    )
-}
+  return (
+    <div>
+      <SignIn />
+    </div>
+  );
+};
 
-export default page
+export default page;

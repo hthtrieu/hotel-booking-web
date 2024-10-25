@@ -6,20 +6,23 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Constants from "@/libs/Constants";
-import { Button } from "@mui/material";
-import { Search } from "@mui/icons-material";
+// import { Button } from "@mui/material";
+// import { Search } from "@mui/icons-material";
 import { formatNumberToVND } from "@/libs/utils";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
+import BlockContainer from "../common/block-container/BlockContainer";
+
 const FilterBox = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [priceOption, setPriceOption] = useState([100000, 5000000]);
+
   const formSchema = z.object({
     price: z.any(),
     review: z.number(),
     hotel_star: z.number(),
   });
+
   const { handleSubmit, control } = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -28,23 +31,43 @@ const FilterBox = () => {
       hotel_star: 1,
     },
   });
-  const onPriceRangeChange = (value: any) => {
-    setPriceOption(value);
-  };
-  const submitForm = (values: any) => {
+
+  // Utility function to update query params
+  const updateQueryParams = (params: Record<string, any>) => {
     const preFilter = Object.fromEntries(searchParams.entries());
-    const filter = {
-      ...preFilter,
-      min_price: values?.price[0],
-      max_price: values?.price[1],
-      review: values?.review,
-      hotel_star: values?.hotel_star,
-    };
+    const filter = { ...preFilter, ...params };
     const queryParams = new URLSearchParams(filter).toString();
     router.push(`/hotel?${queryParams}`);
   };
+
+  const handleFilterChange = (key: string, value: any) => {
+    switch (key) {
+      case "price":
+        setPriceOption(value);
+        updateQueryParams({ min_price: value[0], max_price: value[1] });
+        break;
+      case "review":
+        updateQueryParams({ review: value });
+        break;
+      case "hotel_star":
+        updateQueryParams({ hotel_star: value });
+        break;
+      default:
+        break;
+    }
+  };
+
+  const submitForm = (values: any) => {
+    updateQueryParams({
+      min_price: values.price[0],
+      max_price: values.price[1],
+      review: values.review,
+      hotel_star: values.hotel_star,
+    });
+  };
+
   return (
-    <div className="border-[1px] border-zinc-500 rounded-md p-2">
+    <BlockContainer>
       <form
         className="grid grid-rows-1 gap-4"
         onSubmit={handleSubmit(submitForm)}
@@ -60,17 +83,13 @@ const FilterBox = () => {
               max: 5000000,
               step: 100000,
               disableSwap: true,
-            }} // Cấu hình min, max, step, disableSwap
+            }}
             classNameWrapper="w-full md:w-full"
-            onChangeEvent={onPriceRangeChange}
+            onChangeEvent={(value: any) => handleFilterChange("price", value)}
           />
           <div className="flex justify-between mb-2">
-            <span>
-              Min: {priceOption ? formatNumberToVND(priceOption[0]) : null}
-            </span>
-            <span>
-              Max: {priceOption ? formatNumberToVND(priceOption[1]) : null}
-            </span>
+            <span>Min: {formatNumberToVND(priceOption[0])}</span>
+            <span>Max: {formatNumberToVND(priceOption[1])}</span>
           </div>
         </div>
         <div className="row-span-1 w-full">
@@ -81,6 +100,7 @@ const FilterBox = () => {
             label="Hotel review score"
             classNameWrapper="md:w-full"
             options={Constants.HOTEL_REVIEW_SCORE}
+            onChangeSelect={(value) => handleFilterChange("review", value)}
             className="flex flex-col"
           />
         </div>
@@ -93,11 +113,10 @@ const FilterBox = () => {
             options={Constants.HOTEL_STAR}
             classNameWrapper="md:w-full"
             className="flex flex-col w-full"
+            onChangeSelect={(value) => handleFilterChange("hotel_star", value)}
           />
         </div>
-        <div className="row-span-1 w-full flex justify-end">
-          {/* <IconButton type='submit' color='info' className='!bg-blue-700 w-full'>
-                    </IconButton> */}
+        {/* <div className="row-span-1 w-full flex justify-end">
           <Button
             type="submit"
             variant="contained"
@@ -106,9 +125,9 @@ const FilterBox = () => {
             <Search color="warning" />
             Apply filter
           </Button>
-        </div>
+        </div> */}
       </form>
-    </div>
+    </BlockContainer>
   );
 };
 

@@ -40,7 +40,7 @@ const OptionsBox = (props: OptionBoxInterface) => {
     setAnchor(null);
   });
   return (
-    <div className="w-full md:w-fit">
+    <div className="w-full">
       <div>
         <div
           aria-describedby={id}
@@ -51,8 +51,8 @@ const OptionsBox = (props: OptionBoxInterface) => {
         </div>
 
         <BasePopup
-          id={id}
           open={open}
+          ref={boxRef}
           anchor={anchor}
           // disablePortal
           className="z-50 rounded-lg font-sans font-medium text-sm mt-2 p-3 border border-solid border-slate-200 dark:border-slate-700 bg-white  text-slate-900"

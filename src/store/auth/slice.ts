@@ -1,110 +1,64 @@
-// import { createSlice } from '@reduxjs/toolkit';
+import { getItem, setItem } from "@/libs/LocalStorage";
+import { createSlice } from "@reduxjs/toolkit";
 
 // import { getItem, removeItem, setItem } from '@/lib/LocalStorage';
 
-// const initialState = {
-//   isLoading: false,
-//   token: getItem('access_token') || '',
-//   refresh_token: getItem('refresh_token') || '',
-//   loggedIn: !!getItem('access_token'),
-//   profile: null,
-// };
+const initialState = {
+  isLoading: false,
+  token: getItem("access_token") || "",
+  //   refresh_token: getItem('refresh_token') || '',
+  loggedIn: !!getItem("access_token"),
+  profile: null,
+};
 
-// const authSlice = createSlice({
-//   name: 'auth',
-//   initialState,
-//   reducers: {
-//     //eslint-disable-next-line
-//     loginAction: (state, { payload }) => {
-//       state.isLoading = true;
-//       state.loggedIn = false;
-//     },
+const authSlice = createSlice({
+  name: "auth",
+  initialState,
+  reducers: {
+    //eslint-disable-next-line
+    loginAction: (state, { payload }) => {
+      state.isLoading = true;
+      //   state.loggedIn = false;
+    },
+    //eslint-disable-next-line
+    loginActionSuccess: (state, { payload }) => {
+      state.isLoading = false;
+      setItem("access_token", payload.data.access_token);
+      //   setItem("refresh_token", payload.data.access_token);
+      state.token = String(payload.data.access_token);
+      //   state.refresh_token = String(payload.data.refresh_token);
+      state.loggedIn = true;
+    },
 
-//     loginActionSuccess: (state, { payload }) => {
-//       state.isLoading = false;
-//       setItem('access_token', payload.data.access_token);
-//       setItem('refresh_token', payload.data.access_token);
-//       state.token = String(payload.data.access_token);
-//       state.refresh_token = String(payload.data.refresh_token);
-//       state.loggedIn = true;
-//     },
+    loginActionError: (state) => {
+      state.isLoading = false;
+      //   state.loggedIn = false;
+    },
 
-//     loginActionError: (state) => {
-//       state.isLoading = false;
-//       state.loggedIn = false;
-//     },
+    //eslint-disable-next-line
+    registerAction: (state, { payload }) => {
+      state.isLoading = true;
+    },
 
-//     getProfileAction: (state, { payload }) => {
-//       state.isLoading = true;
-//     },
+    //eslint-disable-next-line
+    registerActionSuccess: (state, { payload }) => {
+      state.isLoading = false;
+    },
 
-//     getProfileActionSuccess: (state, { payload }) => {
-//       state.isLoading = false;
-//       state.profile = payload.data;
-//     },
+    //eslint-disable-next-line
+    registerActionError: (state) => {
+      state.isLoading = false;
+    },
+  },
+});
 
-//     getProfileActionError: (state) => {
-//       // state.isLoading = false;
-//       // state.profile = null;
-//     },
+export const {
+  loginAction,
+  loginActionSuccess,
+  loginActionError,
+  registerAction,
+  registerActionSuccess,
+  registerActionError,
+} = authSlice.actions;
 
-//     getAccessTokenByRefreshTokenAction: (state, { payload }) => {
-//       state.isLoading = true;
-//       state.profile = payload.data;
-//     },
-
-//     getAccessTokenByRefreshTokenActionSuccess: (state, { payload }) => {},
-
-//     registerAction: (state, { payload }) => {
-//       state.isLoading = true;
-//     },
-
-//     registerActionSuccess: (state, { payload }) => {
-//       state.isLoading = false;
-//     },
-
-//     registerActionError: (state) => {
-//       state.isLoading = false;
-//     },
-
-//     loginSuccessWithOauthAction: (state) => {},
-
-//     logoutAction: (state, { payload }) => {
-//       state.loggedIn = true;
-//       // localStorage.removeItem("access_token");
-//       // localStorage.removeItem("refresh_token");
-//     },
-//     logoutSuccessAction: (state) => {
-//       state.loggedIn = false;
-//       state.isLoading = false;
-//       removeItem('access_token');
-//       removeItem('refresh_token');
-//     },
-//     logoutErrorsAction: (state) => {
-//       state.loggedIn = false;
-//       state.isLoading = false;
-//       removeItem('access_token');
-//       removeItem('refresh_token');
-//     },
-//   },
-// });
-
-// export const {
-//   loginAction,
-//   loginActionSuccess,
-//   loginActionError,
-//   getProfileAction,
-//   getProfileActionSuccess,
-//   getProfileActionError,
-//   getAccessTokenByRefreshTokenAction,
-//   getAccessTokenByRefreshTokenActionSuccess,
-//   registerAction,
-//   registerActionSuccess,
-//   registerActionError,
-//   loginSuccessWithOauthAction,
-//   logoutAction,
-//   logoutSuccessAction,
-//   logoutErrorsAction,
-// } = authSlice.actions;
-
-// export default authSlice.reducer;
+export default authSlice.reducer;

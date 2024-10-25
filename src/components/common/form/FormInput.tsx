@@ -82,16 +82,19 @@ export const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
             fieldState: { error },
             // formState,
           }) => (
-            <div className={cn("w-full", className)}>
+            <div className={cn("w-full flex flex-col", className)}>
               {label ? (
                 <FormLabel
-                  className={cn("!text-black font-bold", classNameLabel)}
-                  required={required}
+                  className={cn("!text-black !font-bold", classNameLabel)}
                   error={error ? true : false}
                 >
                   {label}
+                  {required ? (
+                    <span className="text-red-500 ml-1 text-end">*</span>
+                  ) : null}
                 </FormLabel>
               ) : null}
+              <></>
               {renderInput({
                 type,
                 placeholder,
@@ -120,9 +123,7 @@ export const FormInput = React.forwardRef<HTMLInputElement, FormInputProps>(
               })}
               {error ? (
                 <FormHelperText error={true}>{error?.message}</FormHelperText>
-              ) : (
-                <div className=""></div>
-              )}
+              ) : null}
             </div>
           )}
         />
@@ -179,8 +180,10 @@ any) => {
           autoFocus={autoFocus}
           InputProps={{
             readOnly,
-            startAdornment: icon ? (
-              <span onClick={onClickIcon}>{icon}</span>
+            endAdornment: icon ? (
+              <span onClick={onClickIcon} className="cursor-pointer">
+                {icon}
+              </span>
             ) : null,
           }}
         />
@@ -273,13 +276,14 @@ any) => {
             }}
             options={options}
             getOptionLabel={getOptionLabel}
-            sx={{ width: "100%", minWidth: 200 }} // Đảm bảo bỏ min-width mặc định
+            // sx={{ width: "100%" }} // Đảm bảo bỏ min-width mặc định
+            className=""
             renderInput={(params) => (
               <TextField
                 {...params}
                 type={type}
                 placeholder={placeholder}
-                className={cn("w-full min-w-full", classNameInput)} // class w-full đảm bảo đủ width
+                className={cn("w-full md:w-fit", classNameInput)} // class w-full đảm bảo đủ width
                 size="small"
               />
             )}

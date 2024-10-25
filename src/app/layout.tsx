@@ -6,6 +6,8 @@ import "./globals.css";
 import theme from "@/components/common/themes/theme";
 import ToastProvider from "@/providers/toast/ToastProvider";
 import ReduxProvider from "@/providers/ReduxProvider";
+import { Suspense } from "react";
+import Loading from "@/components/common/loading/Loading";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -33,13 +35,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <AppRouterCacheProvider>
-          <ReduxProvider>
-            <ThemeProvider theme={theme}>
-              <ToastProvider>{children}</ToastProvider>
-            </ThemeProvider>
-          </ReduxProvider>
-        </AppRouterCacheProvider>
+        <Suspense fallback={<Loading />}>
+          <AppRouterCacheProvider>
+            <ReduxProvider>
+              <ThemeProvider theme={theme}>
+                <ToastProvider>{children}</ToastProvider>
+              </ThemeProvider>
+            </ReduxProvider>
+          </AppRouterCacheProvider>
+        </Suspense>
       </body>
     </html>
   );

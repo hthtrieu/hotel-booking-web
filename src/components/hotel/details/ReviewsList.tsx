@@ -21,7 +21,7 @@ const ReviewsList = (props: ReviewProps) => {
   };
   return (
     <>
-      <div className={"font-bold text-lg"}>Khách nói gì về kì nghỉ của họ</div>
+      <div className={"font-bold text-lg"}>Reviews</div>
       <div className="w-full max-h-40 mt-2">
         <Slider {...settings}>
           {Array.isArray(props?.reviews) &&

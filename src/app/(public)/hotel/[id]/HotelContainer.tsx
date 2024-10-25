@@ -6,27 +6,40 @@ import HotelImages from "@/components/hotel/details/HotelImages";
 import ReviewsList from "@/components/hotel/details/ReviewsList";
 import RoomsList from "@/components/hotel/room/RoomsList";
 import { formatNumberToVND } from "@/libs/utils";
-// import React, { useEffect } from "react";
 import PlaceIcon from "@mui/icons-material/Place";
-// import { Button } from "@mui/material";
-// import Box from "@mui/material/Box";
-// import Modal from "@mui/material/Modal";
+import { Button } from "@mui/material";
 import StarIcon from "@mui/icons-material/Star";
 import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { getHotelByIdAction } from "@/store/hotel/slice";
+import HotelRules from "@/components/hotel/details/HotelRules";
+import { initCart } from "@/store/cart/slice";
+import { resetPaymentAction } from "@/store/payment/slice";
+import { resetUserInfoReservation } from "@/store/reservation/slice";
+
 interface HotelContainerProps {
   id: string;
 }
 
 const HotelContainer = (props: HotelContainerProps) => {
   const { hotel } = useSelector((state: any) => state.Hotel);
+  const { cart } = useSelector((state: any) => state.Cart);
   const dispatch = useDispatch();
+  const router = useRouter();
 
   const getHotelById = (id: string) => {
     dispatch(
       getHotelByIdAction({
         id: id,
-        onSuccess: () => {},
+        onSuccess: (hotel: any) => {
+          dispatch(
+            initCart({
+              hotel: hotel,
+            })
+          );
+          dispatch(resetPaymentAction());
+          dispatch(resetUserInfoReservation());
+        },
         onError: () => {},
       })
     );
@@ -40,6 +53,7 @@ const HotelContainer = (props: HotelContainerProps) => {
 
   //   open map box
   const handleOpenMap = () => {};
+
   return (
     <div className={"my-4"}>
       {/* hotel basic info */}
@@ -50,12 +64,14 @@ const HotelContainer = (props: HotelContainerProps) => {
               {hotel?.name}
             </div>
             <div>
-              {Array.from({ length: hotel?.starts || 0 }).map((_, index) => (
-                <StarIcon
-                  key={index}
-                  className="text-yellow-400 text-sm md:text-base"
-                />
-              ))}
+              {Array.from({ length: hotel?.hotel_star || 0 }).map(
+                (_, index) => (
+                  <StarIcon
+                    key={index}
+                    className="text-yellow-400 text-sm md:text-base"
+                  />
+                )
+              )}
             </div>
             <p className="text-sm font-semibold">
               <PlaceIcon />
@@ -64,13 +80,13 @@ const HotelContainer = (props: HotelContainerProps) => {
                 className="text-xs text-cyan-500 ml-2"
                 onClick={handleOpenMap}
               >
-                Xem bản đồ
+                View Map
               </button>
             </p>
           </div>
           <div className="col-span-6 md:col-span-2">
             <div className="flex flex-col justify-center items-center">
-              <div className="font-semibold mb-2">Giá phòng mỗi đêm từ</div>
+              <div className="font-semibold mb-2">Price per night from</div>
               <div className="text-2xl text-yellow-500 font-bold mb-2">
                 {formatNumberToVND(hotel?.min_price)}
               </div>
@@ -84,24 +100,44 @@ const HotelContainer = (props: HotelContainerProps) => {
 
       {/* hotel description */}
       <div className={"my-5"}>
-        <div className={"font-bold text-lg"}>Giới thiệu nơi cư trú</div>
+        <div className={"font-bold text-lg"}>Accommodation Introduction</div>
         <div className="text-pretty">{hotel?.description}</div>
       </div>
 
       <div className="flex flex-col sm:flex-row justify-between my-5">
-        {/* hotels'amenities */}
+        {/* hotels' amenities */}
         <div className={"w-full sm:w-1/2"}>
           <AmenitiesList amenities={hotel?.amenities} />
         </div>
 
-        {/* hotels'reviews */}
+        {/* hotels' reviews */}
         <div className={"w-full sm:w-1/2"}>
           <ReviewsList reviews={hotel?.reviews} />
         </div>
       </div>
-      {/* roomTypes list */}
+
+      {/* room types list */}
       <div className="my-5">
         <RoomsList roomTypes={hotel?.room_types} />
+      </div>
+
+      <div className={`w-full flex justify-end`}>
+        {Array.isArray(cart) && cart.length > 0 && (
+          <Button
+            variant="contained"
+            color="warning"
+            onClick={() => {
+              router.push("/booking");
+            }}
+          >
+            Proceed to Booking
+          </Button>
+        )}
+      </div>
+
+      {/* hotel rules */}
+      <div className="my-5">
+        <HotelRules hotelRules={hotel} />
       </div>
     </div>
   );

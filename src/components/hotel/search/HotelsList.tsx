@@ -5,7 +5,7 @@ import HotelCard from "./HotelCard";
 import { useRouter } from "next/navigation";
 
 interface HotelsListProps {
-  data: [];
+  data: any[];
 }
 const HotelsList = (props: HotelsListProps) => {
   //eslint-disable-next-line
@@ -20,7 +20,6 @@ const HotelsList = (props: HotelsListProps) => {
     <div className="grid grid-rows-1 gap-4">
       {Array.isArray(data) &&
         data.map((hotel: any, index: number) => {
-          // console.log("hotel: ", hotel);
           return (
             <div key={index} className="row-span-1">
               <HotelCard

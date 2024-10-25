@@ -13,6 +13,7 @@ import { HttpCode } from "@/libs/enums/httpCode";
 import { PayloadAction } from "@reduxjs/toolkit";
 import { getHotelByIdApi } from "@/api/HotelAPI";
 import { getHotelByIdAction, getHotelByIdSuccessAction } from "./slice";
+import { isFunction } from "@/libs/utils";
 
 interface getHotelByIdPayload {
   id: string;
@@ -38,6 +39,9 @@ function* watchGetHotelById() {
               data: result?.item,
             })
           );
+          if (isFunction(payload.onSuccess)) {
+            payload.onSuccess(result?.item);
+          }
         }
       } catch (error) {
         console.log("error", error);

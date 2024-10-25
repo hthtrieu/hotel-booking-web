@@ -10,6 +10,7 @@ import HotelsList from "@/components/hotel/search/HotelsList";
 import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { searchHotelAction } from "@/store/hotel-search/slice";
+import DataNotFound from "@/components/data-not-found/DataNotFound";
 const HotelResultContainer = () => {
   //eslint-disable-next-line
   const { hotelsList, pagination } = useSelector(
@@ -69,7 +70,15 @@ const HotelResultContainer = () => {
           </div>
 
           <div className="md:col-span-9">
-            <HotelsList data={hotelsList} />
+            {Array.isArray(hotelsList) && hotelsList.length > 0 ? (
+              <>
+                <HotelsList data={hotelsList} />
+              </>
+            ) : (
+              <>
+                <DataNotFound message="No hotel found !" />
+              </>
+            )}
           </div>
         </div>
         <div className="w-full flex justify-end my-4">

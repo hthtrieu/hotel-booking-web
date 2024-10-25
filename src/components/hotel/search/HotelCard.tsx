@@ -82,7 +82,7 @@ const HotelCard = ({ props }: { props: HotelProps }) => {
                   }
                 }}
               >
-                Chọn phòng
+                Select
               </Button>
 
               <div className="flex flex-col items-end mb-5">
@@ -90,7 +90,7 @@ const HotelCard = ({ props }: { props: HotelProps }) => {
                   {formatNumberToVND(props.min_price)}
                 </span>
 
-                <span>Phòng/đêm</span>
+                <span>/Night</span>
               </div>
             </div>
           </div>

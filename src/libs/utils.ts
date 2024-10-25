@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { format, isDate } from "date-fns";
-// import { jwtDecode, JwtPayload } from 'jwt-decode';
+import { jwtDecode, JwtPayload } from "jwt-decode";
 import { twMerge } from "tailwind-merge";
 // import Constants from './Constants';
 
@@ -104,4 +104,40 @@ export const formatNumberToVND = (num: any) => {
     }).format(num);
   }
   return null;
+};
+export function AscDescDate(
+  dateString: string,
+  dayCount: number,
+  isAdd = true
+) {
+  // Tạo đối tượng Date từ chuỗi ngày
+  const date = new Date(dateString);
+
+  // Giảm 1 ngày
+  if (isAdd) {
+    date.setDate(date.getDate() + dayCount);
+  } else {
+    date.setDate(date.getDate() - dayCount);
+  }
+
+  // Định dạng ngày theo yêu cầu: "DD [tháng] MM[,] YYYY"
+  const formattedDate = date.toLocaleDateString("en-EN", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  });
+
+  // Thêm giờ cố định và múi giờ
+  return formattedDate;
+}
+
+export const getUserJWTDecode = (): JwtPayload | any => {
+  const token = localStorage.getItem("access_token")
+    ? JSON.parse(localStorage.getItem("access_token") || "")
+    : "";
+  if (!token) {
+    return null;
+  }
+  const value = jwtDecode(token);
+  return value;
 };

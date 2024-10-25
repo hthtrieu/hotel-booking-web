@@ -8,7 +8,7 @@ interface AmenitiesProps {
 const AmenitiesList = (props: AmenitiesProps) => {
   return (
     <>
-      <div className={"font-bold text-lg"}>Tiện ích</div>
+      <div className={"font-bold text-lg"}>Amenities</div>
       <div className="flex flex-wrap w-full mt-2">
         {Array.from({ length: props?.amenities?.length || 0 })?.map(
           (_, index) => (

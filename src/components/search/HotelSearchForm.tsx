@@ -13,11 +13,13 @@ import { useRouter } from "next/navigation";
 import { showToast } from "@/libs/showToast";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
-
+import { useDispatch } from "react-redux";
+import { setCheckInOutDay } from "@/store/reservation/slice";
 const newDate = new Date();
 
 const HotelSearchForm = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const searchParams = useSearchParams();
   const [preFilter, setPreFilter] = useState<
     { [k: string]: string } | undefined
@@ -120,24 +122,38 @@ const HotelSearchForm = () => {
     };
 
     const queryParams = new URLSearchParams(filter).toString();
+    dispatch(
+      setCheckInOutDay({
+        date: {
+          checkin: filter.checkin,
+          checkout: filter.checkout,
+        },
+      })
+    );
     router.push(`/hotel?${queryParams}`);
   };
 
   return (
     <div>
       <form onSubmit={handleSubmit(submitForm)}>
-        <div className="flex flex-col md:flex-row border-yellow-500 w-full p-4 border-2 gap-4 items-end rounded-md justify-center">
-          <FormInput
-            type={Constants.INPUT_TYPE.AUTOCOMPLETE}
-            control={control}
-            fieldName="province"
-            placeholder="Choose city"
-            options={VietNamProvince}
-            getOptionLabel={(option) => option?.name || ""}
-            className="w-fit"
-          />
-          <DatePickerBox control={control} />
-          <OptionsBox control={control} />
+        <div className="flex flex-col md:flex-row border-yellow-500 w-full p-4 border-2 gap-4 items-end rounded-md justify-between">
+          <div className="w-full md:w-1/3">
+            <FormInput
+              type={Constants.INPUT_TYPE.AUTOCOMPLETE}
+              control={control}
+              fieldName="province"
+              placeholder="Choose city"
+              options={VietNamProvince}
+              getOptionLabel={(option) => option?.name || ""}
+              classNameWrapper="!w-full md:w-full"
+            />
+          </div>
+          <div className="w-full md:w-1/3">
+            <DatePickerBox control={control} />
+          </div>
+          <div className="w-full md:w-1/3">
+            <OptionsBox control={control} />
+          </div>
           <Button
             className="w-full md:w-fit"
             type="submit"
