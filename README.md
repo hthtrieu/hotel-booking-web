@@ -34,4 +34,21 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# ChecinPro-Client
+
+## Client:
+
+### Front-end: <a href="https://github.com/hthtrieu/hotel-booking-web">👉 Github link</a>
+
+### Back-end: <a href="https://github.com/hthtrieu/hotel-booking-server">👉 Github link</a>
+
+### Android App: <a href="https://github.com/hthtrieu/innsight-android">👉 Github link</a>
+
+### <a>Video Demo</a>
+
+## Host & Admin Web:
+
+### Front-end: <a href="https://github.com/hthtrieu/innsight-web"> 👉 Github link</a>
+
+### Back-end: <a href="https://github.com/NhatChu-2002/Hotel-Booking-Backend.git">👉 Github link
+
+### <a>Video Demo</a>
