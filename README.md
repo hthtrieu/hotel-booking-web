@@ -51,4 +51,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ### Back-end: <a href="https://github.com/NhatChu-2002/Hotel-Booking-Backend.git">👉 Github link
 
-### <a>Video Demo</a>
+### <a href="https://drive.google.com/file/d/14ZpX5__uqXZ3URstcVSReeO9S5xaKD_y/view?usp=drive_link">Video Demo</a>
