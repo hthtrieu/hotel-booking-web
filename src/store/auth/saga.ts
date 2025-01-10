@@ -2,7 +2,7 @@ import { all, call, fork, put, takeLatest } from "@redux-saga/core/effects";
 import { PayloadAction } from "@reduxjs/toolkit";
 
 // import actions from "./action";
-
+import authApiRequest from "@/apiRequests/auth";
 import {
   loginAction,
   loginActionError,
@@ -11,7 +11,8 @@ import {
   registerActionError,
   registerActionSuccess,
 } from "./slice";
-import { loginApi, registerApi } from "@/api/AuthApi";
+//eslint-disable-next-line
+import { loginApi, registerApi } from "@/apiRequests/AuthApi";
 import { HttpCode } from "@/libs/enums/httpCode";
 import { isFunction } from "@/libs/utils";
 
@@ -30,7 +31,9 @@ function* watchLogin() {
       payload,
     }: PayloadAction<LoginPayload>): Generator<any, void, any> {
       try {
-        const response = yield call(loginApi, payload.data);
+        // const response = yield call(loginApi, payload.data);
+        const response = yield call(authApiRequest.login, payload.data);
+        console.log("auth saga login: ", response);
         if (
           response.status === HttpCode.OK &&
           response.data?.success &&

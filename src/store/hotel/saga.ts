@@ -11,7 +11,7 @@ import {
 } from "@redux-saga/core/effects";
 import { HttpCode } from "@/libs/enums/httpCode";
 import { PayloadAction } from "@reduxjs/toolkit";
-import { getHotelByIdApi } from "@/api/HotelAPI";
+import { getHotelByIdApi } from "@/apiRequests/HotelAPI";
 import { getHotelByIdAction, getHotelByIdSuccessAction } from "./slice";
 import { isFunction } from "@/libs/utils";
 

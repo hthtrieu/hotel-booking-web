@@ -3,6 +3,10 @@ import { format, isDate } from "date-fns";
 import { jwtDecode, JwtPayload } from "jwt-decode";
 import { twMerge } from "tailwind-merge";
 // import Constants from './Constants';
+import { EntityError } from "./http";
+import { UseFormSetError } from "react-hook-form";
+import jwt from "jsonwebtoken";
+import { showToast } from "./showToast";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -24,6 +28,36 @@ export const getLoggedInUserInfoFromToken = () => {
   // }
   // const value = jwtDecode(token);
   return null;
+};
+
+export const handleErrorApi = ({
+  error,
+  setError,
+}: {
+  error: any;
+  setError?: UseFormSetError<any>;
+  duration?: number;
+}) => {
+  if (error instanceof EntityError && setError) {
+    error.payload.errors.forEach((item) => {
+      setError(item.field, {
+        type: "server",
+        message: item.message,
+      });
+    });
+  } else {
+    showToast("error", error?.payload?.message ?? "Lỗi không xác định");
+  }
+};
+/**
+ * Xóa đi ký tự `/` đầu tiên của path
+ */
+export const normalizePath = (path: string) => {
+  return path.startsWith("/") ? path.slice(1) : path;
+};
+
+export const decodeJWT = <Payload = any>(token: string) => {
+  return jwt.decode(token) as Payload;
 };
 
 export function objectToFormData(
@@ -62,13 +96,6 @@ export const replacePathWithId = (path: string, id: string) => {
   return path.replace(":id", id);
 };
 
-export const speak = (text: string) => {
-  const text_to_speech = new SpeechSynthesisUtterance();
-  text_to_speech.text = text;
-  text_to_speech.lang = "en-US";
-  window.speechSynthesis.speak(text_to_speech);
-};
-
 export const convertDateToString = (text: string) => {
   const date = new Date(text);
   return date.toDateString();
@@ -78,17 +105,6 @@ export const shuffleArray = (array: any[]) => {
   const newArray = [...array]; // Create a shallow copy of the original array
   return newArray.sort(() => Math.random() - 1); // Corrected sorting logic
 };
-
-// export const getUserJWTDecode = (): JwtPayload | any => {
-//     const token = localStorage.getItem('access_token')
-//         ? JSON.parse(localStorage.getItem('access_token') || '')
-//         : '';
-//     if (!token) {
-//         return null;
-//     }
-//     const value = jwtDecode(token);
-//     return value;
-// };
 
 export const formatToLocalDate = (date: Date) => {
   if (isDate(date)) {

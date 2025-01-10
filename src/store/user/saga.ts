@@ -8,7 +8,7 @@ import {
   getUserReservationErrorAction,
   getUserReservationSuccessAction,
 } from "./slice";
-import { getProfileApi, getUserReservationApi } from "@/api/UserApi";
+import { getProfileApi, getUserReservationApi } from "@/apiRequests/UserApi";
 import { HttpCode } from "@/libs/enums/httpCode";
 import { isFunction } from "@/libs/utils";
 
@@ -66,7 +66,7 @@ function* watchUserReservations() {
           response?.data?.data
         ) {
           const result = response.data?.data?.data;
-          console.log("result ", result?.data)
+          console.log("result ", result?.data);
           yield put(
             getUserReservationSuccessAction({
               data: result?.reservations,
@@ -75,9 +75,8 @@ function* watchUserReservations() {
           if (isFunction(payload.onSuccess)) {
             payload.onSuccess();
           }
-        }
-        else{
-          console.log(response?.data)
+        } else {
+          console.log(response?.data);
         }
       } catch (error) {
         console.log("error", error);

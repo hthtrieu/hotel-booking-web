@@ -23,7 +23,7 @@ import {
   getPaymentLinkApi,
   refundInvoiceApi,
   saveInvoiceApi,
-} from "@/api/PaymentApi";
+} from "@/apiRequests/PaymentApi";
 import { HttpCode } from "@/libs/enums/httpCode";
 import { isFunction } from "@/libs/utils";
 import { setItem } from "@/libs/LocalStorage";

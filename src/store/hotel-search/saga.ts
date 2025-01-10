@@ -18,7 +18,7 @@ import {
   // searchHotelSuccessAction,
   // searchHotelErrorAction,
 } from "./slice";
-import { HotelSearchApi } from "@/api/HotelSearchAPI";
+import { HotelSearchApi } from "@/apiRequests/HotelSearchAPI";
 import { HttpCode } from "@/libs/enums/httpCode";
 interface SearchOptions {
   province: string;

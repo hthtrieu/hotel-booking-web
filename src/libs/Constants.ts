@@ -2,7 +2,6 @@ export default class Constants {
   static ACCESS_TOKEN = "access_token";
   static REFRESH_TOKEN = "refresh_token";
   static PUBLIC_ROUTES = ["/", "/home", "/hotel", "/sign-in", "/sign-up"];
-
   static INPUT_TYPE = {
     TEXT: "text",
     EMAIL: "email",
